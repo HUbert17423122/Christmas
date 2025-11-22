@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mums Gift List</title>
+
+    <!-- Placeholder link for dynamic stylesheet -->
+    <link id="dynamic-stylesheet" rel="stylesheet" href="ListO.css">
+
+    <script>
+        function loadStylesheet() {
+            const stylesheet = document.getElementById('dynamic-stylesheet');
+    
+            // Check for touch capability
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+            // Apply appropriate stylesheet
+            if (isTouchDevice) {
+                stylesheet.setAttribute('href', 'ss.css'); // Mobile styles
+            } else {
+                stylesheet.setAttribute('href', 'ListO.css'); // Desktop styles
+            }
+        }
+    
+        // Run the function when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', loadStylesheet);
+    
+        // Recheck on resize or interaction (for dynamic changes)
+        window.addEventListener('resize', loadStylesheet);
+    
+        // Optional: Reapply styles on any user interaction
+        document.addEventListener('touchstart', loadStylesheet);
+        document.addEventListener('click', loadStylesheet);
+    </script>
+    
+      
+      
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script defer data-domain="h-enterprisee.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script><script type="text/javascript" src="https://tiiny.host/ad-script.js"></script></head>
+<body>
+
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <header class="header">
+                <h1 class="title">Mum's Gift List</h1>
+            </header>
+
+            <!-- Input Form -->
+            <div class="input-container">
+                <input type="text" id="giftTitle" placeholder="Gift Title" required>
+                <input type="url" id="giftURL" placeholder="Gift URL" required>
+                <button class="add-btn" onclick="addGift()">Add Gift</button>
+            </div>
+        </div>
+
+        <!-- Right Section (Gift List) -->
+        <div class="right-section">
+            <div class="gift-list" id="outputContainer"></div>
+        </div>
+    </div>
+
+    <!-- Firebase Script -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgliN69VjiVhYBoLBHgZ3P61JkvRB_H8w",
+            authDomain: "the-8b6aa.firebaseapp.com",
+            databaseURL: "https://the-8b6aa-default-rtdb.firebaseio.com",
+            projectId: "the-8b6aa",
+            storageBucket: "the-8b6aa.appspot.com",
+            messagingSenderId: "651979372554",
+            appId: "1:651979372554:web:4db61566cb9929a7c247f3",
+            measurementId: "G-D7PK8C3P3H"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+        const room = "Olivia";
+
+        auth.signInAnonymously().catch(error => console.error(error.message));
+
+        function addGift() {
+            const giftTitle = document.getElementById("giftTitle").value.trim();
+            const giftURL = document.getElementById("giftURL").value.trim();
+            if (!giftTitle || !giftURL) return alert("Both fields are required!");
+
+            const giftRef = db.ref(`gifts/${room}/userGifts`);
+            giftRef.push({ title: giftTitle, url: giftURL });
+            document.getElementById("giftTitle").value = "";
+            document.getElementById("giftURL").value = "";
+        }
+
+        db.ref(`gifts/${room}/userGifts`).on("child_added", snapshot => {
+            const { title, url } = snapshot.val();
+            const giftId = snapshot.key;
+
+            const giftList = document.getElementById("outputContainer");
+            const giftItem = document.createElement("div");
+            giftItem.classList.add("gift-card");
+            giftItem.id = `gift-${giftId}`;
+            giftItem.innerHTML = `
+                <div class="gift-content">
+                    <h3 class="gift-title">${title}</h3>
+                    <a href="${url}" target="_blank" class="gift-url">View Gift</a>
+                    <button class="delete-btn" onclick="deleteGift('${giftId}')">🗑️</button>
+                </div>
+            `;
+            giftList.appendChild(giftItem);
+        });
+
+        function deleteGift(giftId) {
+            db.ref(`gifts/${room}/userGifts/${giftId}`).remove();
+            document.getElementById(`gift-${giftId}`).remove();
+        }
+    </script>
+
+</body>
+</html>

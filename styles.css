@@ -1,0 +1,274 @@
+/* Reset all margins, paddings, and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #001f3d;
+    /* Deep blue, wintery sky */
+    background-image: url('vecteezy_christmas-background-high-quality-4k-ultra-hd-hd_30664353.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-family: 'Georgia', serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    animation: backgroundAnimation 30s linear infinite;
+}
+
+/* Animated background */
+@keyframes backgroundAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+/* Snowflakes animation */
+.snow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.snow .flake {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    opacity: 0.8;
+    border-radius: 50%;
+    animation: snowflakes 10s linear infinite;
+}
+
+.snow .flake:nth-child(odd) {
+    animation-duration: 15s;
+}
+
+.snow .flake:nth-child(even) {
+    animation-duration: 12s;
+}
+
+/* Snowflake animation */
+@keyframes snowflakes {
+    from {
+        transform: translateY(-100vh) rotate(0deg);
+    }
+
+    to {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+/* Glowing effect for heading */
+h1 {
+    font-size: 4.5rem;
+    color: #f0f8ff;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 80px #ff6347, 0 0 100px #ff6347;
+    margin-bottom: 30px;
+    letter-spacing: 3px;
+    font-family: 'Georgia', serif;
+    animation: titleGlow 1.5s ease-in-out infinite alternate;
+}
+
+/* Title Glow animation */
+@keyframes titleGlow {
+    0% {
+        text-shadow: 0 0 40px #ff6347, 0 0 80px #ff6347, 0 0 120px #ff6347;
+    }
+
+    100% {
+        text-shadow: 0 0 60px #ffcc00, 0 0 120px #ffcc00, 0 0 150px #ff6347;
+    }
+}
+
+/* Sparkling effect on title */
+h1:after {
+    content: '✨';
+    font-size: 2.5rem;
+    margin-left: 10px;
+    animation: sparkle 1.5s infinite alternate;
+}
+
+@keyframes sparkle {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+/* Container holding the boxes */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    z-index: 2;
+    align-items: center;
+}
+
+/* Styling for each box (gift boxes) */
+.box {
+    background-color: #d32f2f;
+    /* Christmas red */
+    color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 340px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    border: 4px solid #fff;
+    /* Snowy border */
+    background-image: url('https://www.transparenttextures.com/patterns/dark-embossed-metal.png');
+}
+
+/* Make the tree icon non-clickable */
+.box:before {
+    content: '🎄';
+    /* Insert tree emoji */
+    font-size: 3.5rem;
+    position: absolute;
+    top: -50px;
+    /* Position above the box */
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    /* Prevent any interaction with the tree icon */
+}
+
+/* Hover effect for boxes */
+.box:hover {
+    transform: scale(1.12);
+    /* Slight zoom effect */
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.9);
+    background-color: #c2185b;
+    animation: bounce 0.5s ease-in-out;
+    /* Add bouncing effect on hover */
+}
+
+
+/* Bounce effect on hover */
+@keyframes bounce {
+    0% {
+        transform: scale(1.1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1.12);
+    }
+}
+
+
+@keyframes floatTree {
+    0% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-15px);
+    }
+}
+
+/* Links for interaction */
+a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+a:hover {
+    color: #ffcc00;
+    text-decoration: underline;
+    transform: scale(1.05);
+}
+
+/* Snowflakes animation */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    /* Dark transparent overlay */
+    z-index: 0;
+}
+
+/* Mobile-Responsive Adjustments */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 3.5rem;
+    }
+
+    .box {
+        width: 200%;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.8rem;
+    }
+
+    .box {
+        width: 200%;
+        font-size: 1.5rem;
+        padding: 18px;
+    }
+
+    .snow .flake {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .box {
+        width: 200%;
+        font-size: 1.3rem;
+        padding: 12px;
+    }
+
+    .snow .flake {
+        width: 12px;
+        height: 12px;
+    }
+}
